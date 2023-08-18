@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "820112549987",
+    "project_id": "fire-devliery",
+    "storage_bucket": "fire-devliery.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820112549987:android:16efbf4b308a0904c6f056",
+        "android_client_info": {
+          "package_name": "com.delivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820112549987-41rf9meqtvji1sikc7k6omug53isj8r2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.delivery",
+            "certificate_hash": "ca08be69ba104b37821648bb85b12b8171d200ac"
+          }
+        },
+        {
+          "client_id": "820112549987-01qii8gcb9uoqd82aq2fn26n1b0vlgt9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtrzPjBpD6w3iUoNRSMaC1PTkqJE2jvuU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820112549987-01qii8gcb9uoqd82aq2fn26n1b0vlgt9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
