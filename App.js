@@ -6,20 +6,20 @@
  */
 
 import React from 'react';
-import SignupScreen from './src/container/signUp';
 import Toast from 'react-native-toast-message';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Home from './src/container/Home';
-import OnBoarding from './src/container/onBoarding';
+// import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+import {AuthNavigator} from './src/navigation';
 
 const App = () => {
-  const Stack = createNativeStackNavigator();
+  // const Stack = createNativeStackNavigator();
 
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator
+        {AuthNavigator()}
+        {/* <Stack.Navigator
           screenOptions={{
             headerShown: false,
           }}
@@ -27,7 +27,7 @@ const App = () => {
           <Stack.Screen name="OnBoarding" component={OnBoarding} />
           <Stack.Screen name="Signup" component={SignupScreen} />
           <Stack.Screen name="Home" component={Home} />
-        </Stack.Navigator>
+        </Stack.Navigator> */}
       </NavigationContainer>
       <Toast />
     </>

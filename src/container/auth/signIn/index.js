@@ -1,19 +1,27 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View, ScrollView, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
+// import {
+//   sendPasswordResetEmail,
+//   userRegistration,
+//   validUserLogin,
+// } from '../../firebase';
+import {useFormik} from 'formik';
+// import {validationSchema} from '../../utils/formik/signUp';
+import {validationSchema} from '../../../utils/formik/signUp';
+import InputField from '../../../component/inputField';
+// import InputField from '../../../component/inputField';
+// import {Button} from '../../../component/buttons';
+import {Button} from '../../../component/buttons';
+import {useNavigation} from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
 import {
   sendPasswordResetEmail,
   userRegistration,
   validUserLogin,
-} from '../../firebase';
-import {useFormik} from 'formik';
-import {validationSchema} from '../../utils/formik/signUp';
-import InputField from '../../component/inputField';
-import {Button} from '../../component/buttons';
-import {useNavigation} from '@react-navigation/native';
-import auth from '@react-native-firebase/auth';
+} from '../../../firebase';
 
-const SignupScreen = props => {
+const SigninScreen = props => {
   const {route} = props || {};
   const {isLoginClicked} = route?.params || {};
   const [showPass1, setShowPass1] = useState(false);
@@ -85,9 +93,7 @@ const SignupScreen = props => {
 
   return (
     <ScrollView style={[styles.signup, styles.iconLayout]} bounces={'false'}>
-      <Text style={[styles.signUp, styles.signUpTypo]}>
-        {!isLogin ? 'Welcome back!' : ' Get started'}
-      </Text>
+      <Text style={[styles.signUp, styles.signUpTypo]}>{'Welcome back!'}</Text>
       <View style={[styles.frameParent, styles.signUpPosition]}>
         <View>
           <View style={styles.textfield1}>
@@ -102,46 +108,25 @@ const SignupScreen = props => {
             />
           </View>
           <View style={styles.textfield1}>
-            {!isForgetPassword && (
-              <InputField
-                title={'Password'}
-                value={values.password}
-                style={[styles.placeHolder, styles.placeTypo]}
-                placeholder="Your Password"
-                onChangeText={txt => handleChange('password')(txt)}
-                isErrorMsgRequired={touched?.password && errors?.password}
-                errorText={errors?.password}
-                secureTextEntry={!showPass1}
-                showPass={'Show'}
-                onShowPass={() => setShowPass1(prev => !prev)}
-              />
-            )}
-            {!isLogin && !isForgetPassword && (
-              <Text
-                onPress={() => setIsForgetPassword(true)}
-                style={styles.forgetpasswordstyle}>
-                Forgot password?
-              </Text>
-            )}
+            <InputField
+              title={'Password'}
+              value={values.password}
+              style={[styles.placeHolder, styles.placeTypo]}
+              placeholder="Your Password"
+              onChangeText={txt => handleChange('password')(txt)}
+              isErrorMsgRequired={touched?.password && errors?.password}
+              errorText={errors?.password}
+              secureTextEntry={!showPass1}
+              showPass={'Show'}
+              onShowPass={() => setShowPass1(prev => !prev)}
+            />
+
+            <Text
+              onPress={() => navigation.navigate('ForgetPassword')}
+              style={styles.forgetpasswordstyle}>
+              Forgot password?
+            </Text>
           </View>
-          {isLogin && (
-            <View style={styles.textfield1}>
-              <InputField
-                title={'Confirm Password'}
-                value={values.confirmPassword}
-                style={[styles.placeHolder, styles.placeTypo]}
-                placeholder="Confirm Password"
-                onChangeText={txt => handleChange('confirmPassword')(txt)}
-                isErrorMsgRequired={
-                  touched.confirmPassword && errors.confirmPassword
-                }
-                errorText={errors?.confirmPassword}
-                secureTextEntry={!showPass2}
-                showPass={'Show'}
-                onShowPass={() => setShowPass2(prev => !prev)}
-              />
-            </View>
-          )}
         </View>
         <Text style={[styles.bySigningUpContainer, styles.placeTypo]}>
           <Text style={styles.bySigningUp1}>
@@ -158,27 +143,23 @@ const SignupScreen = props => {
         </Text>
       </View>
       <Button
-        linearGradientStyle={styles.linearGradientStyle}
+        buttonStyle={styles.button}
+        textStyle={[styles.buttonLabel, styles.text1Typo]}
         text={'Continue'}
         onPress={() => handleSubmit()}
-        isLinearGradient
       />
       <TouchableOpacity
         style={[styles.alreadySignedUpParent, styles.headerPosition]}
         onPress={() => {
-          setIsLogin(prev => !prev);
-          handleResetData();
-          setIsForgetPassword(false);
+          navigation.navigate('Signup');
         }}>
         <Text style={[styles.alreadySignedUp1, styles.placeTypo]}>
-          {isLogin ? 'If you have account ?' : 'Don’t have an account ?'}
+          {'Don’t have an account ?'}
         </Text>
-        <Text style={[styles.login, styles.placeTypo]}>
-          {isLogin ? 'Login' : ' Sign up'}
-        </Text>
+        <Text style={[styles.login, styles.placeTypo]}>{' Sign up'}</Text>
       </TouchableOpacity>
     </ScrollView>
   );
 };
 
-export default SignupScreen;
+export default SigninScreen;

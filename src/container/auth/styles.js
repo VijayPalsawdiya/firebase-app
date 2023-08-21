@@ -115,8 +115,8 @@ export const styles = StyleSheet.create({
     color: COLOR_WHITE,
     flex: 1,
   },
-  linearGradientStyle: {
-    // backgroundColor: COLOR_PRIMARY,
+  button: {
+    backgroundColor: COLOR_PRIMARY,
     marginTop: 40,
   },
   icon: {
