@@ -1,8 +1,8 @@
 import {StyleSheet} from 'react-native';
+import {COLOR_PRIMARY, COLOR_PURE_GREEN, COLOR_WHITE} from '../../utils/colors';
 
 export const styles = StyleSheet.create({
   headerPosition: {
-    // position: 'absolute',
     flexDirection: 'row',
   },
   text1Typo: {
@@ -20,17 +20,9 @@ export const styles = StyleSheet.create({
     color: '#312e49',
     fontWeight: '600',
   },
-  signUpPosition: {
-    // left: 24,
-    // position: 'absolute',
-  },
-  buttonFlexBox: {
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
   placeTypo: {
     fontWeight: '500',
-    textAlign: 'left',
+    textAlign: 'center',
   },
   text1: {
     color: '#000',
@@ -43,7 +35,7 @@ export const styles = StyleSheet.create({
   },
 
   signUp: {
-    marginTop: 110,
+    marginTop: 80,
     fontSize: 28,
   },
   header1: {
@@ -70,7 +62,6 @@ export const styles = StyleSheet.create({
     width: '100%',
   },
   textfield1: {
-    marginTop: 18,
     width: '100%',
   },
   placeHolder2: {
@@ -96,9 +87,10 @@ export const styles = StyleSheet.create({
     marginTop: 17,
     alignSelf: 'stretch',
     fontSize: 14,
+    paddingHorizontal: 4,
   },
   frameParent: {
-    marginTop: 50,
+    marginTop: 20,
   },
   alreadySignedUp1: {
     color: '#747980',
@@ -108,24 +100,23 @@ export const styles = StyleSheet.create({
   login: {
     marginLeft: 4,
     color: '#2805ff',
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '500',
   },
   alreadySignedUpParent: {
     flexDirection: 'row',
     alignSelf: 'center',
     bottom: 10,
+    alignItems: 'center',
+    top: 20,
+    height: 24,
   },
   buttonLabel: {
-    color: '#fff',
+    color: COLOR_WHITE,
     flex: 1,
   },
   button: {
-    borderRadius: 6,
-    backgroundColor: '#b4aaf2',
-    paddingHorizontal: 10,
-    paddingVertical: 13,
-    justifyContent: 'center',
+    backgroundColor: COLOR_PRIMARY,
     marginTop: 40,
   },
   icon: {
@@ -140,5 +131,13 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: 16,
+  },
+  forgetpasswordstyle: {
+    color: COLOR_PURE_GREEN,
+    fontSize: 14,
+    textAlign: 'right',
+    marginTop: 12,
+    fontWeight: '600',
+    textDecorationLine: 'underline',
   },
 });

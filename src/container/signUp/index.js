@@ -1,124 +1,181 @@
-import * as React from 'react';
-import {
-  Text,
-  Image,
-  View,
-  Pressable,
-  TextInput,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Text, View, ScrollView, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
-import {ICON} from '../../assets';
+import {
+  sendPasswordResetEmail,
+  userRegistration,
+  validUserLogin,
+} from '../../firebase';
+import {useFormik} from 'formik';
+import {validationSchema} from '../../utils/formik/signUp';
+import InputField from '../../component/inputField';
+import {Button} from '../../component/buttons';
+import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 
-const SignupScreen = () => {
-  const handleSignUpFunc = () => {
-    auth()
-      .createUserWithEmailAndPassword(
-        'RAmGopalVerma.1997@example.com',
-        'SuperSecretPassword!',
-      )
-      .then(() => {
-        console.log('User account created & signed in!');
-      })
-      .catch(error => {
-        if (error.code === 'auth/email-already-in-use') {
-          console.log('That email address is already in use!');
-        }
+const SignupScreen = props => {
+  const {route} = props || {};
+  const {isLoginClicked} = route?.params || {};
+  const [showPass1, setShowPass1] = useState(false);
+  const [showPass2, setShowPass2] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
+  const [isForgetPassword, setIsForgetPassword] = useState(false);
+  const navigation = useNavigation();
 
-        if (error.code === 'auth/invalid-email') {
-          console.log('That email address is invalid!');
-        }
+  // Set an initializing state whilst Firebase connects
+  const [initializing, setInitializing] = useState(true);
 
-        console.error(error);
-      });
+  const initialValues = {
+    email: '',
+    password: '',
+    confirmPassword: '',
   };
+
+  const {handleChange, handleSubmit, resetForm, values, errors, touched} =
+    useFormik({
+      validationSchema: validationSchema(isLogin),
+      initialValues: initialValues,
+      onSubmit: userValues => {
+        handleSignUpFunc(userValues?.email ?? '', userValues?.password ?? '');
+      },
+    });
+
+  useEffect(() => {
+    if (isLoginClicked === 'login') {
+      setIsLogin(!true);
+    }
+    if (isLoginClicked === 'signup') {
+      setIsLogin(true);
+    }
+  }, [isLoginClicked]);
+
+  const navigationCallback = () => {
+    navigation.replace('Home');
+  };
+
+  const handleSignUpFunc = (email, password) => {
+    if (isLogin) {
+      userRegistration(email, password, navigation);
+    } else if (isForgetPassword && email) {
+      sendPasswordResetEmail(email);
+    } else {
+      validUserLogin(email, password, navigation);
+    }
+  };
+
+  // Handle user state changes
+  function onAuthStateChanged(_user) {
+    if (initializing) {
+      setInitializing(false);
+    }
+  }
+
+  useEffect(() => {
+    const subscriber = auth()?.onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (initializing) {
+    return null;
+  }
+
+  const handleResetData = () => {
+    resetForm();
+  };
+
   return (
     <ScrollView style={[styles.signup, styles.iconLayout]} bounces={'false'}>
-      <Text style={[styles.signUp, styles.signUpTypo]}>Sign up</Text>
+      <Text style={[styles.signUp, styles.signUpTypo]}>
+        {!isLogin ? 'Welcome back!' : ' Get started'}
+      </Text>
       <View style={[styles.frameParent, styles.signUpPosition]}>
         <View>
-          <View style={styles.textfield}>
-            <Text style={[styles.header1, styles.signUpTypo]}>First Name</Text>
-            <View style={[styles.placeHolderWrapper, styles.buttonFlexBox]}>
-              <TextInput
+          <View style={styles.textfield1}>
+            <InputField
+              title={'Email'}
+              value={values.email}
+              style={[styles.placeHolder, styles.placeTypo]}
+              placeholder="Your Email"
+              onChangeText={txt => handleChange('email')(txt)}
+              isErrorMsgRequired={touched?.email && errors?.email}
+              errorText={errors?.email}
+            />
+          </View>
+          <View style={styles.textfield1}>
+            {!isForgetPassword && (
+              <InputField
+                title={'Password'}
+                value={values.password}
                 style={[styles.placeHolder, styles.placeTypo]}
-                placeholder="Your First Name"
-              />
-            </View>
-          </View>
-          <View style={styles.textfield1}>
-            <Text style={[styles.header1, styles.signUpTypo]}>Last Name</Text>
-            <View style={[styles.placeHolderWrapper, styles.buttonFlexBox]}>
-              <TextInput
-                style={[styles.placeHolder, styles.placeTypo]}
-                placeholder="Your Last Name"
-              />
-            </View>
-          </View>
-          <View style={styles.textfield1}>
-            <Text style={[styles.header1, styles.signUpTypo]}>E-mail</Text>
-            <View style={[styles.placeHolderWrapper, styles.buttonFlexBox]}>
-              <Image
-                style={styles.iconwifi1Layout}
-                resizeMode="cover"
-                source={ICON.Mail}
-              />
-              <TextInput
-                style={[styles.placeHolder2, styles.placeTypo]}
-                placeholder="Your Email"
-              />
-            </View>
-          </View>
-          <View style={styles.textfield1}>
-            <Text style={[styles.header1, styles.signUpTypo]}>Password</Text>
-            <View style={[styles.placeHolderWrapper, styles.buttonFlexBox]}>
-              <Image
-                style={styles.iconwifi1Layout}
-                resizeMode="cover"
-                source={ICON.Lock}
-              />
-              <TextInput
-                style={[styles.placeHolder2, styles.placeTypo]}
                 placeholder="Your Password"
-                secureTextEntry={true}
+                onChangeText={txt => handleChange('password')(txt)}
+                isErrorMsgRequired={touched?.password && errors?.password}
+                errorText={errors?.password}
+                secureTextEntry={!showPass1}
+                showPass={'Show'}
+                onShowPass={() => setShowPass1(prev => !prev)}
               />
-              <Image
-                style={[styles.iconeyeOff1, styles.iconwifi1Layout]}
-                resizeMode="cover"
-                source={true ? ICON.EyeOff : ICON.Eye}
-                tintColor={'black'}
+            )}
+            {!isLogin && !isForgetPassword && (
+              <Text
+                onPress={() => setIsForgetPassword(true)}
+                style={styles.forgetpasswordstyle}>
+                Forgot password?
+              </Text>
+            )}
+          </View>
+          {isLogin && (
+            <View style={styles.textfield1}>
+              <InputField
+                title={'Confirm Password'}
+                value={values.confirmPassword}
+                style={[styles.placeHolder, styles.placeTypo]}
+                placeholder="Confirm Password"
+                onChangeText={txt => handleChange('confirmPassword')(txt)}
+                isErrorMsgRequired={
+                  touched.confirmPassword && errors.confirmPassword
+                }
+                errorText={errors?.confirmPassword}
+                secureTextEntry={!showPass2}
+                showPass={'Show'}
+                onShowPass={() => setShowPass2(prev => !prev)}
               />
             </View>
-          </View>
+          )}
         </View>
         <Text style={[styles.bySigningUpContainer, styles.placeTypo]}>
           <Text style={styles.bySigningUp1}>
             By signing up you agree to our{' '}
           </Text>
-          <Text style={styles.termsCondition}> Terms & Conditio</Text>
+          <Text style={styles.termsCondition} onPress={() => {}}>
+            Terms & Condition
+          </Text>
           <Text style={styles.bySigningUp1}> and </Text>
-          <Text style={styles.termsCondition}> Privacy Policy.</Text>
+          <Text style={styles.termsCondition} onPress={() => {}}>
+            Privacy Policy.
+          </Text>
           <Text style={styles.text2}>*</Text>
         </Text>
       </View>
-      <TouchableOpacity
-        style={[styles.button, styles.buttonFlexBox]}
-        onPress={() => handleSignUpFunc()}>
-        <Text style={[styles.buttonLabel, styles.text1Typo]}>Continue</Text>
-      </TouchableOpacity>
-      <Pressable
-        style={[styles.iconarrowLeft1, styles.signUpPosition]}
-        onPress={() => {}}
+      <Button
+        buttonStyle={styles.button}
+        textStyle={[styles.buttonLabel, styles.text1Typo]}
+        text={'Continue'}
+        onPress={() => handleSubmit()}
       />
       <TouchableOpacity
         style={[styles.alreadySignedUpParent, styles.headerPosition]}
-        onPress={() => {}}>
+        onPress={() => {
+          setIsLogin(prev => !prev);
+          handleResetData();
+          setIsForgetPassword(false);
+        }}>
         <Text style={[styles.alreadySignedUp1, styles.placeTypo]}>
-          Already signed up ?
+          {isLogin ? 'If you have account ?' : 'Don’t have an account ?'}
         </Text>
-        <Text style={[styles.login, styles.placeTypo]}>{`Login `}</Text>
+        <Text style={[styles.login, styles.placeTypo]}>
+          {isLogin ? 'Login' : ' Sing up'}
+        </Text>
       </TouchableOpacity>
     </ScrollView>
   );

@@ -3,4 +3,5 @@ export const ICON = {
   Eye: require('./icon/eye.png'),
   Lock: require('./icon/lock.png'),
   Mail: require('./icon/mail.png'),
+  VeganLogo: require('./icon/vegan.png'),
 };
