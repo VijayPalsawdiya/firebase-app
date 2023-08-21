@@ -174,7 +174,7 @@ const SignupScreen = props => {
           {isLogin ? 'If you have account ?' : 'Don’t have an account ?'}
         </Text>
         <Text style={[styles.login, styles.placeTypo]}>
-          {isLogin ? 'Login' : ' Sing up'}
+          {isLogin ? 'Login' : ' Sign up'}
         </Text>
       </TouchableOpacity>
     </ScrollView>
