@@ -158,10 +158,10 @@ const SignupScreen = props => {
         </Text>
       </View>
       <Button
-        buttonStyle={styles.button}
-        textStyle={[styles.buttonLabel, styles.text1Typo]}
+        linearGradientStyle={styles.linearGradientStyle}
         text={'Continue'}
         onPress={() => handleSubmit()}
+        isLinearGradient
       />
       <TouchableOpacity
         style={[styles.alreadySignedUpParent, styles.headerPosition]}

@@ -2,28 +2,24 @@
  * Button Components Styles.
  */
 import {StyleSheet} from 'react-native';
-import {COLOR_PRIMARY, COLOR_BLACK} from '../../../utils/colors';
 
 /**
  *
  */
 export const styles = StyleSheet.create({
-  touchableHighlight: {
-    paddingVertical: 11,
-    paddingHorizontal: 15,
-    alignSelf: 'center',
+  touchableHighlight: buttonColor => ({
     alignItems: 'center',
-    borderRadius: 4,
-    borderColor: COLOR_PRIMARY,
-    borderWidth: 2,
+    borderRadius: 8,
     flexDirection: 'row',
-  },
+    backgroundColor: buttonColor ? '#CCA071' : '#ffffff',
+  }),
   text: {
-    color: COLOR_BLACK,
-    alignSelf: 'center',
-    letterSpacing: 0.25,
-    textAlignVertical: 'center',
+    color: '#CCA071',
+    letterSpacing: 0.5,
     textAlign: 'center',
+    flex: 1,
+    fontWeight: '500',
+    fontSize: 16,
   },
   btnImage: {
     marginRight: 10,
@@ -33,5 +29,14 @@ export const styles = StyleSheet.create({
   ButtonActivity: {
     flexDirection: 'row',
     justifyContent: 'center',
+  },
+  linearGradient: {
+    flex: 1,
+    paddingHorizontal: 2,
+    paddingVertical: 2,
+    borderRadius: 10,
+  },
+  linearGradientStyle: {
+    marginTop: 2,
   },
 });
