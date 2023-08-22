@@ -132,6 +132,7 @@ export const styles = StyleSheet.create({
   },
   signup: {
     paddingHorizontal: 16,
+    paddingBottom: 12,
   },
   forgetpasswordstyle: {
     color: COLOR_PURE_GREEN,
