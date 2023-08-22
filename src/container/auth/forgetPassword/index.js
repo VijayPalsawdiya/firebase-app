@@ -1,60 +1,35 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, ScrollView, TouchableOpacity} from 'react-native';
+import {Text, View, ScrollView} from 'react-native';
 import {styles} from './styles';
 import {useFormik} from 'formik';
-import {validationSchema} from '../../../utils/formik/signUp';
+import {validationSchemaForLogin} from '../../../utils/formik/signUp';
 import InputField from '../../../component/inputField';
 import {Button} from '../../../component/buttons';
-import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
-import {
-  sendPasswordResetEmail,
-  userRegistration,
-  validUserLogin,
-} from '../../../firebase';
+import {sendPasswordResetEmail} from '../../../firebase';
+import {useNavigation} from '@react-navigation/native';
 
 const ForgetPassword = props => {
-  const {route} = props || {};
-  const {isLoginClicked} = route?.params || {};
-
-  const [isLogin, setIsLogin] = useState(true);
-  const [isForgetPassword, setIsForgetPassword] = useState(false);
+  const {route = ''} = props || {};
+  const {currentEmail = ''} = route?.params || {};
   const navigation = useNavigation();
-
-  // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
 
   const initialValues = {
-    email: '',
-    password: '',
-    confirmPassword: '',
+    email: currentEmail ? currentEmail : '',
   };
 
-  const {handleChange, handleSubmit, resetForm, values, errors, touched} =
-    useFormik({
-      validationSchema: validationSchema(isLogin),
-      initialValues: initialValues,
-      onSubmit: userValues => {
-        handleSignUpFunc(userValues?.email ?? '', userValues?.password ?? '');
-      },
-    });
+  const {handleChange, handleSubmit, values, errors, touched} = useFormik({
+    validationSchema: validationSchemaForLogin,
+    initialValues: initialValues,
+    onSubmit: userValues => {
+      handleSignUpFunc(userValues?.email ?? '');
+    },
+  });
 
-  useEffect(() => {
-    if (isLoginClicked === 'login') {
-      setIsLogin(!true);
-    }
-    if (isLoginClicked === 'signup') {
-      setIsLogin(true);
-    }
-  }, [isLoginClicked]);
-
-  const handleSignUpFunc = (email, password) => {
-    if (isLogin) {
-      userRegistration(email, password, navigation);
-    } else if (isForgetPassword && email) {
-      sendPasswordResetEmail(email);
-    } else {
-      validUserLogin(email, password, navigation);
+  const handleSignUpFunc = email => {
+    if (email) {
+      sendPasswordResetEmail(email, navigation);
     }
   };
 
@@ -68,15 +43,12 @@ const ForgetPassword = props => {
   useEffect(() => {
     const subscriber = auth()?.onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (initializing) {
     return null;
   }
-
-  const handleResetData = () => {
-    resetForm();
-  };
 
   return (
     <ScrollView style={[styles.signup, styles.iconLayout]} bounces={'false'}>
@@ -110,21 +82,13 @@ const ForgetPassword = props => {
         </Text>
       </View>
       <Button
+        linearGradientStyle={styles.linearGradientStyle}
         buttonStyle={styles.button}
-        textStyle={[styles.buttonLabel, styles.text1Typo]}
+        textStyle={styles.buttonLabel}
         text={'Continue'}
         onPress={() => handleSubmit()}
+        isLinearGradient={true}
       />
-      <TouchableOpacity
-        style={[styles.alreadySignedUpParent, styles.headerPosition]}
-        onPress={() => {
-          navigation.navigate('Signin');
-        }}>
-        <Text style={[styles.alreadySignedUp1, styles.placeTypo]}>
-          {'Remember your password ?'}
-        </Text>
-        <Text style={[styles.login, styles.placeTypo]}>{'Login'}</Text>
-      </TouchableOpacity>
     </ScrollView>
   );
 };

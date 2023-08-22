@@ -40,7 +40,6 @@ export const styles = StyleSheet.create({
   },
 
   signUp: {
-    marginTop: 80,
     fontSize: 28,
   },
   header1: {
@@ -68,6 +67,7 @@ export const styles = StyleSheet.create({
   },
   textfield1: {
     width: '100%',
+    height: 100,
   },
   placeHolder2: {
     marginLeft: 10,
@@ -117,11 +117,7 @@ export const styles = StyleSheet.create({
     height: 24,
   },
   buttonLabel: {
-    color: COLOR_BLACK,
     flex: 1,
-  },
-  button: {
-    backgroundColor: 'white',
   },
   linearGradientStyle: {
     marginTop: 40,
@@ -135,8 +131,6 @@ export const styles = StyleSheet.create({
     height: 24,
   },
   signup: {
-    flex: 1,
-    backgroundColor: '#fff',
     paddingHorizontal: 16,
   },
   forgetpasswordstyle: {

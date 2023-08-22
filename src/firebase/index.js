@@ -9,7 +9,7 @@ const userRegistration = (email, password, navigation) => {
     ?.then(() => {
       msg = 'User account created & signed in!';
       showToast('success', 'Successfull Saved', msg);
-      navigation.replace('Home');
+      navigation.navigate('HomeNavigator');
     })
     ?.catch(error => {
       if (error?.code === 'auth/email-already-in-use') {
@@ -31,7 +31,7 @@ const validUserLogin = (email, password, navigation) => {
     ?.then(user => {
       // If server response message same as Data Matched
       showToast('success', 'Login Successfull', '');
-      navigation.replace('Home');
+      navigation.navigate('HomeNavigator');
     })
     ?.catch(error => {
       if (error?.code === 'auth/invalid-email') {
@@ -47,7 +47,7 @@ const validUserLogin = (email, password, navigation) => {
     });
 };
 
-const sendPasswordResetEmail = async email => {
+const sendPasswordResetEmail = async (email, navigation) => {
   try {
     await auth().sendPasswordResetEmail(email);
 
@@ -56,6 +56,7 @@ const sendPasswordResetEmail = async email => {
       'Mail sent to your Email',
       'Password reset email sent successfully.',
     );
+    navigation.navigate('AuthScreen');
   } catch (error) {
     showToast('error', 'Error sending password reset email:', 'No User Found');
   }

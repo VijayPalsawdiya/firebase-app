@@ -24,7 +24,7 @@ const Button = props => {
     height = 46,
     isLinearGradient = false,
     linearGradientStyle,
-    buttonColor,
+    buttonColor = '',
   } = props || {};
 
   const combinedStyle = {

@@ -67,6 +67,7 @@ export const styles = StyleSheet.create({
   },
   textfield1: {
     width: '100%',
+    height: 100,
   },
   placeHolder2: {
     marginLeft: 10,
@@ -116,12 +117,13 @@ export const styles = StyleSheet.create({
     height: 24,
   },
   buttonLabel: {
-    color: COLOR_WHITE,
     flex: 1,
   },
-  button: {
-    backgroundColor: COLOR_PRIMARY,
+  linearGradientStyle: {
     marginTop: 40,
+  },
+  button: {
+    // backgroundColor: COLOR_PRIMARY,
   },
   icon: {
     height: '100%',

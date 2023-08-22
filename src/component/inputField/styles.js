@@ -23,7 +23,7 @@ const handleBorderColor = (isSelected, error) => {
 
 export const styles = StyleSheet.create({
   inputContainer: (isSelected, error) => ({
-    borderWidth: 1,
+    // borderWidth: 1,
     borderColor: handleBorderColor(isSelected, error),
     borderRadius: 8,
     flexDirection: 'row',
@@ -31,6 +31,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     minHeight: 44,
     paddingRight: 16,
+    borderBottomWidth: 1,
   }),
   input: {
     justifyContent: 'center',
@@ -42,8 +43,10 @@ export const styles = StyleSheet.create({
   placeholder: {
     justifyContent: 'center',
     textAlign: 'left',
-    marginLeft: 12,
+    marginLeft: 6,
     width: '100%',
+    fontSize: 16,
+    fontWeight: '400',
   },
   code: {
     color: COLOR_BLACK_100,
@@ -63,6 +66,7 @@ export const styles = StyleSheet.create({
     textAlign: 'left',
     fontSize: 14,
     fontWeight: '600',
+    marginLeft: 8,
   },
   error: {
     color: COLOR_ERROR,

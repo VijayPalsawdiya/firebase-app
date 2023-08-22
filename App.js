@@ -7,30 +7,16 @@
 
 import React from 'react';
 import Toast from 'react-native-toast-message';
-import {NavigationContainer} from '@react-navigation/native';
-// import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
-import {AuthNavigator} from './src/navigation';
+import AppNavigator from './src/navigation';
+import {Provider} from 'react-redux';
+import store from './src/redux/store';
 
 const App = () => {
-  // const Stack = createNativeStackNavigator();
-
   return (
-    <>
-      <NavigationContainer>
-        {AuthNavigator()}
-        {/* <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-          initialRouteName="OnBoarding">
-          <Stack.Screen name="OnBoarding" component={OnBoarding} />
-          <Stack.Screen name="Signup" component={SignupScreen} />
-          <Stack.Screen name="Home" component={Home} />
-        </Stack.Navigator> */}
-      </NavigationContainer>
+    <Provider store={store}>
+      <AppNavigator />
       <Toast />
-    </>
+    </Provider>
   );
 };
 export default App;

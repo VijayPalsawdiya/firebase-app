@@ -3,13 +3,16 @@ import React, {useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {SignOutFunc} from '../../firebase';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {resetUserInfoData} from '../../redux/reducers/userInfo';
+import Header from '../../component/header';
 
 export default function Home() {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
   const navigation = useNavigation();
-
+  const dispatch = useDispatch();
   // Handle user state changes
   function onAuthStateChanged(_user) {
     setUser(_user);
@@ -21,11 +24,13 @@ export default function Home() {
   useEffect(() => {
     const subscriber = auth()?.onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const Sigout = () => {
     SignOutFunc();
-    navigation.replace('Signup');
+    dispatch(resetUserInfoData());
+    navigation.navigate('AuthScreen');
   };
 
   const SignOutCallBack = () => {
@@ -50,6 +55,7 @@ export default function Home() {
   return (
     <SafeAreaView>
       <View style={{paddingHorizontal: 16}}>
+        <Header />
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text>Welcome {user?.email}</Text>
           <Text onPress={() => SignOutCallBack()}>SignOut</Text>

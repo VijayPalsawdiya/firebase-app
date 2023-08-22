@@ -1,35 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, ScrollView, TouchableOpacity} from 'react-native';
+import {Text, View, ScrollView} from 'react-native';
 import {styles} from './styles';
-// import {
-//   sendPasswordResetEmail,
-//   userRegistration,
-//   validUserLogin,
-// } from '../../firebase';
 import {useFormik} from 'formik';
-// import {validationSchema} from '../../utils/formik/signUp';
 import {validationSchema} from '../../../utils/formik/signUp';
 import InputField from '../../../component/inputField';
-// import InputField from '../../../component/inputField';
-// import {Button} from '../../../component/buttons';
 import {Button} from '../../../component/buttons';
 import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
-import {
-  sendPasswordResetEmail,
-  userRegistration,
-  validUserLogin,
-} from '../../../firebase';
+import {userRegistration} from '../../../firebase';
 
-const SignUpScreen = props => {
-  const {route} = props || {};
-  const {isLoginClicked} = route?.params || {};
+const SignUpScreen = () => {
   const [showPass1, setShowPass1] = useState(false);
   const [showPass2, setShowPass2] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
-  const [isForgetPassword, setIsForgetPassword] = useState(false);
   const navigation = useNavigation();
-
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
 
@@ -39,35 +22,17 @@ const SignUpScreen = props => {
     confirmPassword: '',
   };
 
-  const {handleChange, handleSubmit, resetForm, values, errors, touched} =
-    useFormik({
-      validationSchema: validationSchema(isLogin),
-      initialValues: initialValues,
-      onSubmit: userValues => {
-        handleSignUpFunc(userValues?.email ?? '', userValues?.password ?? '');
-      },
-    });
-
-  useEffect(() => {
-    if (isLoginClicked === 'login') {
-      setIsLogin(!true);
-    }
-    if (isLoginClicked === 'signup') {
-      setIsLogin(true);
-    }
-  }, [isLoginClicked]);
-
-  const navigationCallback = () => {
-    navigation.replace('Home');
-  };
+  const {handleChange, handleSubmit, values, errors, touched} = useFormik({
+    validationSchema: validationSchema(true),
+    initialValues: initialValues,
+    onSubmit: userValues => {
+      handleSignUpFunc(userValues?.email ?? '', userValues?.password ?? '');
+    },
+  });
 
   const handleSignUpFunc = (email, password) => {
-    if (isLogin) {
+    if (email && password) {
       userRegistration(email, password, navigation);
-    } else if (isForgetPassword && email) {
-      sendPasswordResetEmail(email);
-    } else {
-      validUserLogin(email, password, navigation);
     }
   };
 
@@ -81,20 +46,16 @@ const SignUpScreen = props => {
   useEffect(() => {
     const subscriber = auth()?.onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (initializing) {
     return null;
   }
 
-  const handleResetData = () => {
-    resetForm();
-  };
-
   return (
-    <ScrollView style={[styles.signup, styles.iconLayout]} bounces={'false'}>
-      <Text style={[styles.signUp, styles.signUpTypo]}>{' Get started'}</Text>
-      <View style={[styles.frameParent, styles.signUpPosition]}>
+    <ScrollView style={styles.signup} bounces={'false'}>
+      <View style={styles.frameParent}>
         <View>
           <View style={styles.textfield1}>
             <InputField
@@ -117,7 +78,7 @@ const SignUpScreen = props => {
               isErrorMsgRequired={touched?.password && errors?.password}
               errorText={errors?.password}
               secureTextEntry={!showPass1}
-              showPass={'Show'}
+              showPass={showPass1 ? 'Hide' : 'Show'}
               onShowPass={() => setShowPass1(prev => !prev)}
             />
           </View>
@@ -134,7 +95,7 @@ const SignUpScreen = props => {
               }
               errorText={errors?.confirmPassword}
               secureTextEntry={!showPass2}
-              showPass={'Show'}
+              showPass={showPass2 ? 'Hide' : 'Show'}
               onShowPass={() => setShowPass2(prev => !prev)}
             />
           </View>
@@ -155,22 +116,11 @@ const SignUpScreen = props => {
       </View>
       <Button
         linearGradientStyle={styles.linearGradientStyle}
-        buttonStyle={styles.button}
-        textStyle={[styles.buttonLabel, styles.text1Typo]}
+        textStyle={styles.buttonLabel}
         text={'Continue'}
         onPress={() => handleSubmit()}
-        isLinearGradient
+        isLinearGradient={true}
       />
-      <TouchableOpacity
-        style={[styles.alreadySignedUpParent, styles.headerPosition]}
-        onPress={() => {
-          navigation.navigate('Signin');
-        }}>
-        <Text style={[styles.alreadySignedUp1, styles.placeTypo]}>
-          {'If you have account ?'}
-        </Text>
-        <Text style={[styles.login, styles.placeTypo]}>{'Login'}</Text>
-      </TouchableOpacity>
     </ScrollView>
   );
 };
