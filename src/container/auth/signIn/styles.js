@@ -144,5 +144,7 @@ export const styles = StyleSheet.create({
   },
   linearGradientStyle: {
     marginTop: 60,
+    marginHorizontal: 50,
+    borderRadius: 30,
   },
 });

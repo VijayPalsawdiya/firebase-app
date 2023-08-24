@@ -17,3 +17,7 @@ export const validationSchema = isLogin =>
 export const validationSchemaForLogin = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email is required'),
 });
+
+export const updateProfileSchema = Yup.object().shape({
+  username: Yup.string().required('User Name is required'),
+});

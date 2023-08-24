@@ -5,4 +5,6 @@ export const ICON = {
   Mail: require('./icon/mail.png'),
   VeganLogo: require('./icon/vegan.png'),
   ChefhatLogo: require('./icon/chefhat.png'),
+  Arrowleft: require('./icon/arrowleft.png'),
+  ImgEdit: require('./icon/imgEditing.png'),
 };

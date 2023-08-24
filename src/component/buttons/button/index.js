@@ -17,11 +17,11 @@ const Button = props => {
   const {
     buttonStyle,
     onPress,
-    text,
+    text = 'Continue',
     textStyle,
     activeOpacity = 0.5,
     buttonDisabled = false,
-    height = 46,
+    height = 50,
     isLinearGradient = false,
     linearGradientStyle,
     buttonColor = '',

@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
   },
   title: {
     marginTop: 12,
-    marginBottom: 8,
+    marginBottom: 0,
     color: COLOR_GRAY_730,
     textAlign: 'left',
     fontSize: 14,

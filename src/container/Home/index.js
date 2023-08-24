@@ -1,5 +1,5 @@
-import {View, Text, SafeAreaView, Alert} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {View, Text, SafeAreaView, Alert, StyleSheet} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {SignOutFunc} from '../../firebase';
 import {useNavigation} from '@react-navigation/native';
@@ -15,6 +15,9 @@ export default function Home() {
   const dispatch = useDispatch();
   // Handle user state changes
   function onAuthStateChanged(_user) {
+    if (!_user) {
+      dispatch(resetUserInfoData());
+    }
     setUser(_user);
     if (initializing) {
       setInitializing(false);
@@ -22,16 +25,13 @@ export default function Home() {
   }
 
   useEffect(() => {
-    const subscriber = auth()?.onAuthStateChanged(onAuthStateChanged);
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const Sigout = () => {
+  const Sigout = useCallback(async () => {
     SignOutFunc();
-    dispatch(resetUserInfoData());
-    navigation.navigate('AuthScreen');
-  };
+  }, []);
 
   const SignOutCallBack = () => {
     Alert.alert(
@@ -54,13 +54,25 @@ export default function Home() {
 
   return (
     <SafeAreaView>
-      <View style={{paddingHorizontal: 16}}>
-        <Header />
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text>Welcome {user?.email}</Text>
+      <View style={styles.container}>
+        <Header title={'Home'} />
+        <View style={styles.headerStyle}>
+          <Text onPress={() => navigation.navigate('Profile')}>
+            Welcome {user?.email}
+          </Text>
           <Text onPress={() => SignOutCallBack()}>SignOut</Text>
         </View>
+        <Text>Delicious food for you</Text>
       </View>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {paddingHorizontal: 16},
+  headerStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 12,
+  },
+});

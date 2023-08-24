@@ -9,13 +9,18 @@ export const userInfoSlice = createSlice({
     userInfoData: (state, action) => {
       state.userInfo = action.payload;
     },
+    updatedData: (state, action) => {
+      state.profileData = action.payload;
+    },
     resetUserInfoData: (state, action) => {
       state.userInfo = null;
+      state.profileData = null;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {userInfoData, resetUserInfoData} = userInfoSlice.actions;
+export const {userInfoData, resetUserInfoData, updatedData} =
+  userInfoSlice.actions;
 
 export default userInfoSlice.reducer;

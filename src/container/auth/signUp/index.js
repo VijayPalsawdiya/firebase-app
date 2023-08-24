@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, ScrollView} from 'react-native';
+import {View, ScrollView} from 'react-native';
 import {styles} from './styles';
 import {useFormik} from 'formik';
 import {validationSchema} from '../../../utils/formik/signUp';
@@ -7,19 +7,23 @@ import InputField from '../../../component/inputField';
 import {Button} from '../../../component/buttons';
 import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
-import {userRegistration} from '../../../firebase';
+import {updateProfile, userRegistration} from '../../../firebase';
+import {useDispatch, useSelector} from 'react-redux';
+import {userInfoData} from '../../../redux/reducers/userInfo';
 
 const SignUpScreen = () => {
   const [showPass1, setShowPass1] = useState(false);
   const [showPass2, setShowPass2] = useState(false);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
 
   const initialValues = {
-    email: '',
-    password: '',
-    confirmPassword: '',
+    email: 'vj@gmail.com',
+    password: '12345678',
+    confirmPassword: '12345678',
   };
 
   const {handleChange, handleSubmit, values, errors, touched} = useFormik({
@@ -38,6 +42,7 @@ const SignUpScreen = () => {
 
   // Handle user state changes
   function onAuthStateChanged(_user) {
+    dispatch(userInfoData(_user));
     if (initializing) {
       setInitializing(false);
     }
@@ -57,6 +62,17 @@ const SignUpScreen = () => {
     <ScrollView style={styles.signup} bounces={'false'}>
       <View style={styles.frameParent}>
         <View>
+          {/* <View style={styles.textfield1}>
+            <InputField
+              title={'User Name'}
+              value={values.username}
+              style={[styles.placeHolder, styles.placeTypo]}
+              placeholder="Your Name"
+              onChangeText={txt => handleChange('username')(txt)}
+              isErrorMsgRequired={touched?.username && errors?.username}
+              errorText={errors?.username}
+            />
+          </View> */}
           <View style={styles.textfield1}>
             <InputField
               title={'Email'}
@@ -100,19 +116,6 @@ const SignUpScreen = () => {
             />
           </View>
         </View>
-        <Text style={[styles.bySigningUpContainer, styles.placeTypo]}>
-          <Text style={styles.bySigningUp1}>
-            By signing up you agree to our{' '}
-          </Text>
-          <Text style={styles.termsCondition} onPress={() => {}}>
-            Terms & Condition
-          </Text>
-          <Text style={styles.bySigningUp1}> and </Text>
-          <Text style={styles.termsCondition} onPress={() => {}}>
-            Privacy Policy.
-          </Text>
-          <Text style={styles.text2}>*</Text>
-        </Text>
       </View>
       <Button
         linearGradientStyle={styles.linearGradientStyle}

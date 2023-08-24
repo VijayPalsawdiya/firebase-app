@@ -67,7 +67,7 @@ export const styles = StyleSheet.create({
   },
   textfield1: {
     width: '100%',
-    height: 100,
+    height: 90,
   },
   placeHolder2: {
     marginLeft: 10,
@@ -120,7 +120,9 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   linearGradientStyle: {
-    marginTop: 40,
+    marginTop: 10,
+    marginHorizontal: 50,
+    borderRadius: 30,
   },
   icon: {
     height: '100%',
@@ -132,6 +134,7 @@ export const styles = StyleSheet.create({
   },
   signup: {
     paddingHorizontal: 16,
+    marginBottom: 30,
   },
   forgetpasswordstyle: {
     color: COLOR_PURE_GREEN,

@@ -8,6 +8,7 @@ import {Button} from '../../../component/buttons';
 import auth from '@react-native-firebase/auth';
 import {sendPasswordResetEmail} from '../../../firebase';
 import {useNavigation} from '@react-navigation/native';
+import Header from '../../../component/header';
 
 const ForgetPassword = props => {
   const {route = ''} = props || {};
@@ -52,6 +53,11 @@ const ForgetPassword = props => {
 
   return (
     <ScrollView style={[styles.signup, styles.iconLayout]} bounces={'false'}>
+      <Header
+        isbackIconShow
+        title="Forget Password"
+        backClicked={() => navigation.goBack()}
+      />
       <Text style={[styles.signUp, styles.signUpTypo]}>Forget Password</Text>
       <View style={[styles.frameParent, styles.signUpPosition]}>
         <View>

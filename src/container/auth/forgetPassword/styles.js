@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
   },
 
   signUp: {
-    marginTop: 80,
+    marginTop: 10,
     fontSize: 28,
   },
   header1: {
@@ -121,6 +121,8 @@ export const styles = StyleSheet.create({
   },
   linearGradientStyle: {
     marginTop: 40,
+    marginHorizontal: 50,
+    borderRadius: 30,
   },
   button: {
     // backgroundColor: COLOR_PRIMARY,
@@ -137,6 +139,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: 16,
+    paddingTop: 50,
   },
   forgetpasswordstyle: {
     color: COLOR_PURE_GREEN,

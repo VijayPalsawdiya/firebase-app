@@ -18,18 +18,11 @@ const SigninScreen = () => {
 
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState(null);
 
   const initialValues = {
-    email: '',
-    password: '',
+    email: 'vj@gmail.com',
+    password: '12345678',
   };
-
-  useEffect(() => {
-    if (user) {
-      dispatch(userInfoData(user));
-    }
-  }, [user, dispatch]);
 
   const {handleChange, handleSubmit, values, errors, touched} = useFormik({
     validationSchema: validationSchema(false),
@@ -47,7 +40,7 @@ const SigninScreen = () => {
 
   // Handle user state changes
   function onAuthStateChanged(_user) {
-    setUser(_user);
+    dispatch(userInfoData(_user));
     if (initializing) {
       setInitializing(false);
     }

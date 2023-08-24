@@ -6,6 +6,7 @@ import SigninScreen from '../../container/auth/signIn';
 import ForgetPassword from '../../container/auth/forgetPassword';
 import AuthScreen from '../../container/auth/authScreen';
 import Home from '../../container/Home';
+import Profile from '../../container/profile';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,8 @@ export const AuthNavigator = () => {
       <Stack.Screen name="Signup" component={SignUpScreen} />
       <Stack.Screen name="Signin" component={SigninScreen} />
       <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+      {/* <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Profile" component={Profile} /> */}
     </Stack.Navigator>
   );
 };
@@ -33,6 +36,7 @@ export const HomeNavigator = () => {
       }}
       initialRouteName="Home">
       <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>
   );
 };
