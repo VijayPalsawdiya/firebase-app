@@ -50,6 +50,7 @@ const RBBottomSheet = forwardRef((props, ref) => {
       openDuration={openDuration}
       keyboardAvoidingViewEnabled={false}
       closeDuration={closeDuration}
+      animationType="slide"
       customStyles={{
         wrapper: {
           ...style.backgroundcolorStyle(showTransparent),

@@ -19,5 +19,11 @@ export const validationSchemaForLogin = Yup.object().shape({
 });
 
 export const updateProfileSchema = Yup.object().shape({
-  username: Yup.string().required('User Name is required'),
+  username: Yup.string()
+    .min(4, 'User Name must be at least 6 characters')
+    .required('User Name is required'),
+  mobileNumber: Yup.string()
+    .min(10, 'User Mobile Number must be at least 10 characters')
+    .required('User Mobile Required is required'),
+  address: Yup.string().required('Address Required is required'),
 });

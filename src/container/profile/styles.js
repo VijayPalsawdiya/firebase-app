@@ -5,10 +5,10 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   headerStyle: {
-    backgroundColor: 'white',
+    backgroundColor: '#E5B480',
     flexDirection: 'row',
-    paddingHorizontal: 16,
-    paddingVertical: 18,
+    paddingHorizontal: 8,
+    paddingVertical: 16,
     borderRadius: 12,
   },
   containerStyle: {
@@ -39,15 +39,30 @@ export const styles = StyleSheet.create({
   },
   paddingLeft: {
     paddingLeft: 8,
+    flex: 1,
   },
   imgStyle: {
-    height: 80,
-    width: 80,
+    height: 100,
+    width: 100,
     borderRadius: 12,
   },
   flexDir: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 12,
+  },
+  paddingVer: {
+    marginTop: 12,
+    paddingHorizontal: 16,
+    justifyContent: 'space-between',
+  },
+  extratxtStyle: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  arrowLeft: {
+    height: 18,
+    width: 18,
+    transform: [{scaleX: -1}],
   },
 });

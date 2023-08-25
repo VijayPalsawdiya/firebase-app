@@ -1,25 +1,25 @@
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import InputField from '../../../component/inputField';
 import {styles} from './styles';
 import {ICON} from '../../../assets';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {useFormik} from 'formik';
-import {updateProfile} from '../../../firebase';
 import {updateProfileSchema} from '../../../utils/formik/signUp';
 import LinearGradient from 'react-native-linear-gradient';
 import {COLOR_SECONDARY} from '../../../utils/colors';
 import {useSelector} from 'react-redux';
-import {updatedData} from '../../../redux/reducers/userInfo';
 
 export default function RenderBottomSheet(props) {
-  const {closePopup, dispatch} = props || {};
+  const {closePopup, submitData, photoURL} = props || {};
   const [imgSelected, setImgSelected] = useState('');
   const {userInfo, profileData} = useSelector(state => state.userInfoReducer);
 
   const {displayName = ''} = userInfo || {};
   const initialValues = {
     username: '',
+    mobileNumber: '',
+    address: '',
     imgurl: imgSelected,
   };
 
@@ -27,24 +27,36 @@ export default function RenderBottomSheet(props) {
     validationSchema: updateProfileSchema,
     initialValues: initialValues,
     onSubmit: userValues => {
-      handleSignUpFunc(userValues?.username, imgSelected);
+      handleSignUpFunc({
+        userValues,
+        imgData: imgSelected,
+      });
       closePopup();
     },
   });
 
-  const handleSignUpFunc = async (username, img) => {
-    if (username || img) {
-      dispatch(updatedData({username: username, img: imgSelected}));
-      return await updateProfile(username, img);
-    }
-  };
+  const handleSignUpFunc = useCallback(
+    _userValues => {
+      const {imgData, userValues} = _userValues || {};
+      const {address = '', mobileNumber = '', username = ''} = userValues || {};
+      submitData &&
+        submitData({
+          imageData: imgData ? imgData : photoURL ? photoURL : '',
+          userName: username,
+          userNumber: mobileNumber,
+          userAddress: address,
+        });
+    },
+    [submitData, photoURL],
+  );
   const onImageSelect = () => {
     ImageCropPicker?.openPicker({
       height: 80,
       width: 80,
       cropping: true,
+      includeBase64: true,
     }).then(image => {
-      setImgSelected(image?.path);
+      setImgSelected(image);
     });
   };
 
@@ -58,9 +70,11 @@ export default function RenderBottomSheet(props) {
               source={
                 imgSelected
                   ? {
-                      uri: imgSelected,
+                      uri: `data:${imgSelected?.mime};base64,${imgSelected?.data}`,
                     }
-                  : ICON.VeganLogo
+                  : photoURL
+                  ? {uri: `data:${photoURL?.mime};base64,${photoURL?.data}`}
+                  : ICON?.VeganLogo
               }
               style={styles.profileImg}
               resizeMode="contain"
@@ -84,10 +98,34 @@ export default function RenderBottomSheet(props) {
             title={'User name'}
             value={values.username}
             style={[styles.placeHolder, styles.placeTypo]}
-            placeholder="Your username"
+            placeholder="John Doe"
             onChangeText={txt => handleChange('username')(txt)}
             isErrorMsgRequired={touched?.username && errors?.username}
             errorText={errors?.username}
+          />
+        </View>
+        <View style={styles.textfield1}>
+          <InputField
+            title={'Mobile Number'}
+            value={values.mobileNumber}
+            style={[styles.placeHolder, styles.placeTypo]}
+            placeholder="(565) 666-8838"
+            onChangeText={txt => handleChange('mobileNumber')(txt)}
+            isErrorMsgRequired={touched?.mobileNumber && errors?.mobileNumber}
+            errorText={errors?.mobileNumber}
+            maxLength={10}
+          />
+        </View>
+        <View style={styles.textfield1}>
+          <InputField
+            title={'Address'}
+            value={values.address}
+            style={[styles.placeHolder, styles.placeTypo]}
+            placeholder="city ,country ,zipCode"
+            onChangeText={txt => handleChange('address')(txt)}
+            isErrorMsgRequired={touched?.address && errors?.address}
+            errorText={errors?.address}
+            maxLength={50}
           />
         </View>
         <TouchableOpacity

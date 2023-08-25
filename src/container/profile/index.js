@@ -1,5 +1,5 @@
-import {View, Text, SafeAreaView, Image} from 'react-native';
-import React, {useCallback, useRef} from 'react';
+import {View, Text, SafeAreaView, Image, TouchableOpacity} from 'react-native';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Header from '../../component/header';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -7,17 +7,30 @@ import RBBottomSheet from '../../component/rbBottomSheet';
 import RenderBottomSheet from './renderChild';
 import {styles} from './styles';
 import firestore from '@react-native-firebase/firestore';
+import {showToast} from '../../utils/helper';
+import {ICON} from '../../assets';
+import {listData} from './logics';
+import {Button} from '../../component/buttons';
 
 export default function Profile() {
-  const {userInfo, profileData} = useSelector(state => state.userInfoReducer);
-  console.log('🚀 ~ file: index.js:13 ~ Profile ~ userInfo:', userInfo);
-  const {
-    displayName = '',
-    email = '',
-    photoURL = '',
-    uid = '',
-  } = userInfo || {};
-  const {username = '', img = ''} = profileData || {};
+  const {userInfo} = useSelector(state => state.userInfoReducer);
+  const {email = '', uid = ''} = userInfo || {};
+  const [isReload, setIsReload] = useState(false);
+  const [savedData, setSavedData] = useState(false);
+
+  useEffect(() => {
+    firestore()
+      .collection('Users')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          if (documentSnapshot?.id) {
+            setSavedData(documentSnapshot.data());
+          }
+        });
+      });
+  }, [isReload]);
+
   const navigation = useNavigation();
   const bottomSheetRef = useRef();
   const dispatch = useDispatch();
@@ -26,15 +39,15 @@ export default function Profile() {
     bottomSheetRef?.current?.close();
   }, [bottomSheetRef]);
 
-  const handlefirestore = () => {
+  const handlefirestore = userData => {
     firestore()
       .collection('Users')
-      .add({
-        name: 'Ada Lovelace',
-        age: 30,
-      })
-      .then(() => {
-        console.log('User added!');
+      .doc(uid)
+      .set(userData)
+      .then(itm => {
+        console.log('User added! via docID', itm);
+        showToast('success', 'Details Saved', '');
+        setIsReload(Prev => !Prev);
       });
   };
 
@@ -46,34 +59,45 @@ export default function Profile() {
           backClicked={() => navigation.goBack()}
           title={'Profile'}
         />
-        <Text onPress={() => handlefirestore()} style={styles.myprofile}>
-          My profile
-        </Text>
+        <Text style={styles.myprofile}>My profile</Text>
         <View style={styles.flexDir}>
-          <Text style={styles.txtStyle}>Personal details</Text>
+          <Text style={styles.extratxtStyle}>Personal details</Text>
           <Text
             onPress={() => bottomSheetRef?.current?.open()}
-            style={styles.txtStyle}>
+            style={styles.extratxtStyle}>
             Edit
           </Text>
         </View>
 
         <View style={styles.headerStyle}>
           <Image
-            source={{
-              uri: img ? img : photoURL,
-            }}
+            source={
+              savedData?.imageData
+                ? {
+                    uri: `data:${savedData.imageData?.mime};base64,${savedData.imageData?.data}`,
+                  }
+                : ICON.VeganLogo
+            }
             style={styles.imgStyle}
-            resizeMode="center"
           />
           <View style={styles.paddingLeft}>
-            {(username || displayName) && (
-              <Text style={styles.txtStyle}>{username || displayName}</Text>
-            )}
+            <Text style={styles.txtStyle}>
+              {savedData?.userName ? savedData?.userName : 'John Doe'}
+            </Text>
+
             <Text style={styles.email}>{email}</Text>
-            {true && <Text style={styles.phoneNumber}>{'+91 9876867862'}</Text>}
+            <Text style={styles.email}>{savedData?.userAddress}</Text>
+            <Text style={styles.phoneNumber}>{savedData?.userNumber}</Text>
           </View>
         </View>
+        {listData?.map(itm => {
+          return (
+            <TouchableOpacity style={[styles.headerStyle, styles.paddingVer]}>
+              <Text style={styles.extratxtStyle}>{itm?.title}</Text>
+              <Image style={styles.arrowLeft} source={ICON.Arrowleft} />
+            </TouchableOpacity>
+          );
+        })}
       </View>
       <RBBottomSheet
         openDuration={300}
@@ -85,9 +109,10 @@ export default function Profile() {
           <RenderBottomSheet
             innerRef={bottomSheetRef}
             closePopup={() => closePopup()}
+            submitData={itm => handlefirestore(itm)}
             navigation={navigation}
             dispatch={dispatch}
-            uid={uid}
+            photoURL={savedData.imageData}
           />
         }
       />
