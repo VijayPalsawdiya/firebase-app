@@ -5,31 +5,26 @@
  * @format
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import Toast from 'react-native-toast-message';
-import {NavigationContainer} from '@react-navigation/native';
-// import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
-import {AuthNavigator} from './src/navigation';
+import AppNavigator from './src/navigation';
+import {Provider} from 'react-redux';
+import store from './src/redux/store';
+import SplashScreen from 'react-native-splash-screen';
+import {Platform, StatusBar} from 'react-native';
 
 const App = () => {
-  // const Stack = createNativeStackNavigator();
-
+  useEffect(() => {
+    SplashScreen?.hide();
+  }, []);
   return (
     <>
-      <NavigationContainer>
-        {AuthNavigator()}
-        {/* <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-          initialRouteName="OnBoarding">
-          <Stack.Screen name="OnBoarding" component={OnBoarding} />
-          <Stack.Screen name="Signup" component={SignupScreen} />
-          <Stack.Screen name="Home" component={Home} />
-        </Stack.Navigator> */}
-      </NavigationContainer>
-      <Toast />
+      {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
+
+      <Provider store={store}>
+        <AppNavigator />
+        <Toast />
+      </Provider>
     </>
   );
 };

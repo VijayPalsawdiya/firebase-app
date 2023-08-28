@@ -39,8 +39,7 @@ export const styles = StyleSheet.create({
   },
 
   signUp: {
-    marginTop: 80,
-    fontSize: 28,
+    marginTop: 50,
   },
   header1: {
     fontSize: 14,
@@ -66,6 +65,7 @@ export const styles = StyleSheet.create({
     width: '100%',
   },
   textfield1: {
+    height: 100,
     width: '100%',
   },
   placeHolder2: {
@@ -116,7 +116,6 @@ export const styles = StyleSheet.create({
     height: 24,
   },
   buttonLabel: {
-    color: COLOR_WHITE,
     flex: 1,
   },
   button: {
@@ -133,15 +132,19 @@ export const styles = StyleSheet.create({
   },
   signup: {
     flex: 1,
-    backgroundColor: '#fff',
     paddingHorizontal: 16,
   },
   forgetpasswordstyle: {
-    color: COLOR_PURE_GREEN,
+    color: '#B28C63',
     fontSize: 14,
-    textAlign: 'right',
-    marginTop: 12,
+    textAlign: 'left',
+    marginTop: 18,
     fontWeight: '600',
     textDecorationLine: 'underline',
+  },
+  linearGradientStyle: {
+    marginTop: 60,
+    marginHorizontal: 50,
+    borderRadius: 30,
   },
 });

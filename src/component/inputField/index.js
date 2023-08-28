@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, TextInput, Text} from 'react-native';
 import {styles} from './styles';
 import {COLOR_GRAY} from '../../utils/colors';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const InputField = props => {
   const {
@@ -22,13 +23,25 @@ const InputField = props => {
     secureTextEntry = false,
     showPass,
     onShowPass,
+    vectorIconName = '',
+    isSearchIcon = false,
   } = props || {};
   const [isSelected, setIsSelected] = useState(false);
 
   return (
     <View style={inputContainerStyle}>
-      <Text style={[styles.title, titleStyle]}>{title}</Text>
+      <View style={styles.flex}>
+        {vectorIconName && (
+          <Icon name={vectorIconName} size={16} color="#900" />
+        )}
+        <Text style={[styles.title, titleStyle]}>{title}</Text>
+      </View>
       <View style={styles.inputContainer(isSelected, error)}>
+        {isSearchIcon && (
+          <View style={styles.padding}>
+            <Icon name="search-outline" size={16} color="#900" />
+          </View>
+        )}
         <TextInput
           ref={innerRef}
           placeholder={placeholder}

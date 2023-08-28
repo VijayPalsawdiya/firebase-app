@@ -1,21 +1,16 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import OnBoarding from '../container/onBoarding';
-import SignUpScreen from '../container/auth/signUp';
-import SigninScreen from '../container/auth/signIn';
-import ForgetPassword from '../container/auth/forgetPassword';
+import {NavigationContainer} from '@react-navigation/native';
+import {AuthNavigator, HomeNavigator} from './stackNavigator';
+import {useSelector} from 'react-redux';
 
-const Stack = createNativeStackNavigator();
+export default function AppNavigator() {
+  const userInfo = useSelector(state => state.userInfoReducer);
+  const {email, uid} = userInfo?.userInfo || {};
+  const isLoggedIn = email && uid;
 
-export const AuthNavigator = () => (
-  <Stack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}
-    initialRouteName="OnBoarding">
-    <Stack.Screen name="OnBoarding" component={OnBoarding} />
-    <Stack.Screen name="Signup" component={SignUpScreen} />
-    <Stack.Screen name="Signin" component={SigninScreen} />
-    <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
-  </Stack.Navigator>
-);
+  return (
+    <NavigationContainer>
+      {isLoggedIn ? <HomeNavigator /> : <AuthNavigator />}
+    </NavigationContainer>
+  );
+}

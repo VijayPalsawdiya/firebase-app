@@ -2,6 +2,7 @@
  * Button Components Styles.
  */
 import {StyleSheet} from 'react-native';
+import {COLOR_WHITE} from '../../../utils/colors';
 
 /**
  *
@@ -11,14 +12,14 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 8,
     flexDirection: 'row',
-    backgroundColor: buttonColor ? '#CCA071' : '#ffffff',
+    backgroundColor: buttonColor,
   }),
   text: {
-    color: '#CCA071',
-    letterSpacing: 0.5,
+    color: COLOR_WHITE,
+    letterSpacing: 0.8,
     textAlign: 'center',
     flex: 1,
-    fontWeight: '500',
+    fontWeight: '600',
     fontSize: 16,
   },
   btnImage: {
