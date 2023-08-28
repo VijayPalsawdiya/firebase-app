@@ -60,7 +60,6 @@ export const styles = StyleSheet.create({
     fontWeight: '400',
   },
   title: {
-    marginTop: 12,
     marginBottom: 0,
     color: COLOR_GRAY_730,
     textAlign: 'left',
@@ -74,4 +73,6 @@ export const styles = StyleSheet.create({
     marginTop: 5,
     textAlign: 'left',
   },
+  flex: {flexDirection: 'row'},
+  padding: {paddingLeft: 16},
 });

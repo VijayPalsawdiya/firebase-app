@@ -65,4 +65,8 @@ export const styles = StyleSheet.create({
     width: 18,
     transform: [{scaleX: -1}],
   },
+  paddingTop: {
+    bottom: -100,
+    alignSelf: 'center',
+  },
 });

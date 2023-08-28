@@ -135,6 +135,7 @@ export const styles = StyleSheet.create({
   signup: {
     paddingHorizontal: 16,
     marginBottom: 30,
+    marginTop: 40,
   },
   forgetpasswordstyle: {
     color: COLOR_PURE_GREEN,

@@ -1,6 +1,6 @@
-import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
-import {ICON} from '../../assets';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Header(props) {
   const {
@@ -9,26 +9,22 @@ export default function Header(props) {
     isNextIconShow = false,
     nextClicked,
     title = 'Header',
-    icon1 = ICON.Arrowleft,
-    icon2 = ICON.Arrowleft,
   } = props || {};
   return (
     <View style={styles.container}>
-      <View>
-        {isbackIconShow && (
-          <TouchableOpacity onPress={backClicked} style={styles.iconStyle}>
-            <Image source={icon1} style={styles.backImg} />
-          </TouchableOpacity>
-        )}
-      </View>
+      {isbackIconShow && (
+        <TouchableOpacity onPress={backClicked} style={styles.iconStyle2}>
+          <Icon name="chevron-back-outline" size={25} color="#900" />
+        </TouchableOpacity>
+      )}
       <View>{title && <Text style={styles.titleStyle}>{title}</Text>}</View>
-      <View>
-        {isNextIconShow && (
-          <TouchableOpacity onPress={nextClicked} style={styles.iconStyle}>
-            <Image source={icon2} style={styles.nextImg} />
-          </TouchableOpacity>
-        )}
-      </View>
+      {isNextIconShow && (
+        <TouchableOpacity onPress={nextClicked} style={styles.iconStyle2}>
+          <Text style={styles.titleStyle}>Profile</Text>
+          <Icon name="person-outline" size={16} color="#900" />
+          <Icon name="chevron-forward-outline" size={25} color="#900" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -44,18 +40,11 @@ const styles = StyleSheet.create({
   titleStyle: {
     fontSize: 18,
     fontWeight: '500',
+    alignItems: 'center',
+    paddingRight: 8,
   },
-  backImg: {
-    height: 25,
-    width: 25,
-  },
-  nextImg: {
-    height: 25,
-    width: 25,
-    transform: [{scaleX: -1}],
-  },
-  iconStyle: {
-    height: 25,
-    width: 30,
+  iconStyle2: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

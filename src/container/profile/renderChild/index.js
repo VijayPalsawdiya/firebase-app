@@ -96,6 +96,7 @@ export default function RenderBottomSheet(props) {
         <View style={styles.textfield1}>
           <InputField
             title={'User name'}
+            vectorIconName={'person-outline'}
             value={values.username}
             style={[styles.placeHolder, styles.placeTypo]}
             placeholder="John Doe"
@@ -107,6 +108,7 @@ export default function RenderBottomSheet(props) {
         <View style={styles.textfield1}>
           <InputField
             title={'Mobile Number'}
+            vectorIconName={'phone-portrait-outline'}
             value={values.mobileNumber}
             style={[styles.placeHolder, styles.placeTypo]}
             placeholder="(565) 666-8838"
@@ -119,6 +121,7 @@ export default function RenderBottomSheet(props) {
         <View style={styles.textfield1}>
           <InputField
             title={'Address'}
+            vectorIconName={'earth-outline'}
             value={values.address}
             style={[styles.placeHolder, styles.placeTypo]}
             placeholder="city ,country ,zipCode"

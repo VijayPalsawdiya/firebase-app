@@ -7,9 +7,10 @@ import InputField from '../../../component/inputField';
 import {Button} from '../../../component/buttons';
 import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
-import {updateProfile, userRegistration} from '../../../firebase';
-import {useDispatch, useSelector} from 'react-redux';
+import {userRegistration} from '../../../firebase';
+import {useDispatch} from 'react-redux';
 import {userInfoData} from '../../../redux/reducers/userInfo';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const SignUpScreen = () => {
   const [showPass1, setShowPass1] = useState(false);
@@ -76,6 +77,7 @@ const SignUpScreen = () => {
           <View style={styles.textfield1}>
             <InputField
               title={'Email'}
+              vectorIconName={'mail-outline'}
               value={values.email}
               style={[styles.placeHolder, styles.placeTypo]}
               placeholder="Your Email"
@@ -94,7 +96,13 @@ const SignUpScreen = () => {
               isErrorMsgRequired={touched?.password && errors?.password}
               errorText={errors?.password}
               secureTextEntry={!showPass1}
-              showPass={showPass1 ? 'Hide' : 'Show'}
+              showPass={
+                showPass1 ? (
+                  <Icon name={'eye-off-outline'} size={16} color="#900" />
+                ) : (
+                  <Icon name={'eye-outline'} size={16} color="#900" />
+                )
+              }
               onShowPass={() => setShowPass1(prev => !prev)}
             />
           </View>
@@ -111,7 +119,13 @@ const SignUpScreen = () => {
               }
               errorText={errors?.confirmPassword}
               secureTextEntry={!showPass2}
-              showPass={showPass2 ? 'Hide' : 'Show'}
+              showPass={
+                showPass2 ? (
+                  <Icon name={'eye-off-outline'} size={16} color="#900" />
+                ) : (
+                  <Icon name={'eye-outline'} size={16} color="#900" />
+                )
+              }
               onShowPass={() => setShowPass2(prev => !prev)}
             />
           </View>

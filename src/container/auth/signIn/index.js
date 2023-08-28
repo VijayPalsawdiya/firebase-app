@@ -10,6 +10,7 @@ import auth from '@react-native-firebase/auth';
 import {validUserLogin} from '../../../firebase';
 import {useDispatch} from 'react-redux';
 import {userInfoData} from '../../../redux/reducers/userInfo';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const SigninScreen = () => {
   const [showPass, setShowPass] = useState(false);
@@ -64,6 +65,7 @@ const SigninScreen = () => {
           <View style={styles.textfield1}>
             <InputField
               title={'Email'}
+              vectorIconName={'mail-outline'}
               value={values.email}
               style={[styles.placeHolder, styles.placeTypo]}
               placeholder="Your Email"
@@ -82,7 +84,13 @@ const SigninScreen = () => {
               isErrorMsgRequired={touched?.password && errors?.password}
               errorText={errors?.password}
               secureTextEntry={!showPass}
-              showPass={showPass ? 'Hide' : 'Show'}
+              showPass={
+                showPass ? (
+                  <Icon name={'eye-off-outline'} size={16} color="#900" />
+                ) : (
+                  <Icon name={'eye-outline'} size={16} color="#900" />
+                )
+              }
               onShowPass={() => setShowPass(prev => !prev)}
             />
 
