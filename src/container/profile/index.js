@@ -26,7 +26,7 @@ export default function Profile() {
   const {userInfo} = useSelector(state => state.userInfoReducer);
   const {email = '', uid = ''} = userInfo || {};
   const [isReload, setIsReload] = useState(false);
-  const [savedData, setSavedData] = useState(false);
+  const [savedData, setSavedData] = useState({});
   const [user, setUser] = useState();
   const [initializing, setInitializing] = useState(true);
 
@@ -156,7 +156,9 @@ export default function Profile() {
         </View>
         {listData?.map(itm => {
           return (
-            <TouchableOpacity style={[styles.headerStyle, styles.paddingVer]}>
+            <TouchableOpacity
+              key={itm?.id}
+              style={[styles.headerStyle, styles.paddingVer]}>
               <Text style={styles.extratxtStyle}>
                 <Icon name={itm?.iconName} size={16} color="#900" />
                 {'  '}
@@ -170,7 +172,6 @@ export default function Profile() {
           onPress={() => SignOutCallBack()}
           style={[styles.headerStyle, styles.paddingTop]}>
           <Text style={styles.extratxtStyle}>
-            <Icon name={''} size={16} color="#900" />
             {'  '}
             {'Sign Out'}
             {'  '}
@@ -191,7 +192,10 @@ export default function Profile() {
             submitData={itm => handlefirestore(itm)}
             navigation={navigation}
             dispatch={dispatch}
-            photoURL={savedData.imageData}
+            photoURL={savedData?.imageData}
+            userName={savedData?.userName}
+            userAddress={savedData?.userAddress}
+            userNumber={savedData?.userNumber}
           />
         }
       />
