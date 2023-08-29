@@ -73,14 +73,16 @@ export default function Home() {
       .then(querySnapshot => {
         const products = [];
         querySnapshot.docs.map(documentSnapshot => {
-          products.push({
-            ...documentSnapshot.data(),
-            key: documentSnapshot.id,
-          });
+          if (uid === documentSnapshot.data()?.uid) {
+            products.push({
+              ...documentSnapshot.data(),
+              key: documentSnapshot.id,
+            });
+          }
         });
         setSavedData(products);
       });
-  }, [isReload]);
+  }, [isReload, uid]);
 
   const handleForm = useCallback(_userValues => {
     firestore()
