@@ -11,15 +11,16 @@ import {COLOR_SECONDARY} from '../../../utils/colors';
 import {useSelector} from 'react-redux';
 
 export default function RenderBottomSheet(props) {
-  const {closePopup, submitData, photoURL} = props || {};
+  const {closePopup, submitData, photoURL, userName, userAddress, userNumber} =
+    props || {};
   const [imgSelected, setImgSelected] = useState('');
   const {userInfo, profileData} = useSelector(state => state.userInfoReducer);
 
   const {displayName = ''} = userInfo || {};
   const initialValues = {
-    username: '',
-    mobileNumber: '',
-    address: '',
+    username: userName ?? '',
+    mobileNumber: userNumber ?? '',
+    address: userAddress ?? '',
     imgurl: imgSelected,
   };
 
@@ -51,8 +52,8 @@ export default function RenderBottomSheet(props) {
   );
   const onImageSelect = () => {
     ImageCropPicker?.openPicker({
-      height: 80,
-      width: 80,
+      height: 300,
+      width: 400,
       cropping: true,
       includeBase64: true,
     }).then(image => {

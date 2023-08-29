@@ -67,6 +67,6 @@ export const styles = StyleSheet.create({
   },
   paddingTop: {
     bottom: -100,
-    alignSelf: 'center',
+    justifyContent: 'center',
   },
 });

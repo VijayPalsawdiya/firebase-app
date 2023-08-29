@@ -27,3 +27,14 @@ export const updateProfileSchema = Yup.object().shape({
     .required('User Mobile Required is required'),
   address: Yup.string().required('Address Required is required'),
 });
+
+export const productsSchema = Yup.object().shape({
+  productsType: Yup.string()
+    .oneOf(
+      ['foods', 'drinks', 'snacks', 'sauce'],
+      'Invalid type (foods,drinks ,snacks and sauce)',
+    )
+    .required('product Type is required'),
+  productsName: Yup.string().required('product Name Required is required'),
+  productsPrice: Yup.string().required('product Price Required is required'),
+});
