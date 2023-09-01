@@ -16,7 +16,7 @@ const AuthScreen = () => {
           style={styles.chefLogo}
           resizeMode="center"
         />
-        <Text style={styles.veganText}>vegan</Text>
+        <Text style={styles.veganText}>Foodies</Text>
         <View style={styles.tabContainer}>
           <View>
             <TouchableOpacity

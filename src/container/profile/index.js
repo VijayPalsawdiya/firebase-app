@@ -25,7 +25,6 @@ import auth from '@react-native-firebase/auth';
 export default function Profile() {
   const {userInfo} = useSelector(state => state.userInfoReducer);
   const {email = '', uid = ''} = userInfo || {};
-  console.log('🚀 ~ file: index.js:28 ~ Profile ~ uid:', uid);
   const [isReload, setIsReload] = useState(false);
   const [savedData, setSavedData] = useState({});
   const [user, setUser] = useState();
@@ -38,10 +37,6 @@ export default function Profile() {
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
           if (uid === documentSnapshot.data()?.uid) {
-            console.log(
-              '🚀 ~ file: index.js:41 ~ useEffect ~ uid === documentSnapshot.data()?.uid:',
-              uid === documentSnapshot.data()?.uid,
-            );
             if (documentSnapshot?.id) {
               setSavedData(documentSnapshot.data());
             }

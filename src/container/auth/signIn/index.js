@@ -21,8 +21,8 @@ const SigninScreen = () => {
   const [initializing, setInitializing] = useState(true);
 
   const initialValues = {
-    email: 'vj@gmail.com',
-    password: '12345678',
+    email: '',
+    password: '',
   };
 
   const {handleChange, handleSubmit, values, errors, touched} = useFormik({

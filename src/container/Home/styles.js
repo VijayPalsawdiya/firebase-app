@@ -15,19 +15,17 @@ export const styles = StyleSheet.create({
   text1: {
     fontSize: 34,
     fontWeight: '600',
-    marginTop: 32,
     width: '60%',
   },
   searchStyle: {
-    width: '90%',
+    width: '100%',
     alignSelf: 'center',
-    marginTop: 30,
+    marginTop: 20,
   },
   scroll: {
-    paddingLeft: 32,
+    paddingLeft: 8,
     marginTop: 32,
-    paddingHorizontal: 16,
-    paddingRight: 32,
+    paddingRight: 8,
   },
   scrollItmStyle: isTabSelected => ({
     fontSize: 18,
@@ -107,5 +105,67 @@ export const styles = StyleSheet.create({
   flexD: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  renderView: {
+    marginHorizontal: 16,
+    height: 220,
+    width: 222,
+    marginTop: 80,
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 20,
+    justifyContent: 'flex-end',
+    paddingBottom: 10,
+  },
+  imgView: {
+    height: 164,
+    width: 164,
+    borderRadius: 100,
+    position: 'absolute',
+    top: -40,
+  },
+  algn: {
+    alignItems: 'center',
+  },
+  fontStyl: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  fontStylprice: {
+    fontSize: 18,
+    fontWeight: '400',
+    paddingLeft: 4,
+  },
+  flexDir: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+  },
+  flexDus: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  cartStyle: {
+    alignSelf: 'flex-end',
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+  },
+  cartViewStyle: {
+    backgroundColor: '#CCA071',
+    minHeight: 16,
+    minWidth: 16,
+    borderRadius: 20,
+    alignItems: 'center',
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    zIndex: 1,
+  },
+  cartTxtStyle: {
+    color: 'white',
+    zIndex: 0,
   },
 });

@@ -1,6 +1,8 @@
 import {Dimensions} from 'react-native';
 import Toast from 'react-native-toast-message';
 
+export const ADMINUID = '2LBgN5pc5eOq9wYsegx6zOg7WwQ2';
+
 export const showToast = (type, msg1, msg2) => {
   Toast.show({
     type: type,

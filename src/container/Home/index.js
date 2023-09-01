@@ -13,15 +13,14 @@ import Header from '../../component/header';
 import InputField from '../../component/inputField';
 import {handleSelected, scrollItems} from './logics';
 import RBBottomSheet from '../../component/rbBottomSheet';
-
 import {useFormik} from 'formik';
 import {productsSchema} from '../../utils/formik/signUp';
-
 import {styles} from './styles';
 import BottomSheetAddProduct from './bottomSheet';
 import firestore from '@react-native-firebase/firestore';
 import {useSelector} from 'react-redux';
-import {showToast} from '../../utils/helper';
+import {ADMINUID, showToast} from '../../utils/helper';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function Home() {
   // Set an initializing state whilst Firebase connects
@@ -33,6 +32,8 @@ export default function Home() {
   const [selectedType, setSelectedType] = useState('all');
 
   const {userInfo} = useSelector(state => state.userInfoReducer);
+  const {addtoCart = []} = useSelector(state => state.addtoCartReducer);
+
   const {uid = ''} = userInfo || {};
 
   const navigation = useNavigation();
@@ -65,7 +66,6 @@ export default function Home() {
       });
     },
   });
-
   useEffect(() => {
     firestore()
       .collection('Products')
@@ -73,12 +73,10 @@ export default function Home() {
       .then(querySnapshot => {
         const products = [];
         querySnapshot.docs.map(documentSnapshot => {
-          if (uid === documentSnapshot.data()?.uid) {
-            products.push({
-              ...documentSnapshot.data(),
-              key: documentSnapshot.id,
-            });
-          }
+          products.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
         });
         setSavedData(products);
       });
@@ -97,45 +95,29 @@ export default function Home() {
   }, []);
 
   const renderItm = item => {
-    const {imgSelected: img, userValues} = item || {};
+    const {imgSelected: img, userValues, key} = item || {};
     return (
-      <View
-        style={{
-          marginHorizontal: 16,
-          height: 220,
-          width: 222,
-          marginTop: 80,
-          alignItems: 'center',
-          backgroundColor: 'white',
-          borderRadius: 20,
-          justifyContent: 'flex-end',
-          paddingBottom: 10,
-        }}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('productDetails', {docId: key})}
+        style={styles.renderView}>
         <Image
           source={{
             uri: `data:${img?.mime};base64,${img?.data}`,
           }}
-          style={{
-            height: 164,
-            width: 164,
-            borderRadius: 100,
-            position: 'absolute',
-            top: -40,
-          }}
+          style={styles.imgView}
           resizeMode="cover"
         />
-        <View style={{alignItems: 'center'}}>
-          <Text style={{fontSize: 18, fontWeight: '400'}}>
-            {userValues?.productsType}
-          </Text>
-          <Text style={{fontSize: 22, fontWeight: '600'}}>
-            {userValues?.productsName}
-          </Text>
-          <Text style={{fontSize: 16, fontWeight: '400'}}>
-            ${userValues?.productsPrice}
-          </Text>
+        <View style={styles.algn}>
+          <Text style={styles.fontStylprice}>{userValues?.productsType}</Text>
+          <Text style={styles.fontStyl}>{userValues?.productsName}</Text>
+          <View style={styles.flexDus}>
+            <Text style={styles.fontStylprice}>
+              <Icon name="rupee" size={16} color="#000" />
+              {userValues?.productsPrice}
+            </Text>
+          </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -168,11 +150,26 @@ export default function Home() {
           isNextIconShow
           nextClicked={() => navigation.navigate('Profile')}
         />
+        {uid !== ADMINUID && (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('cartScreen')}
+            style={styles.cartStyle}>
+            <View style={styles.cartViewStyle}>
+              <Text style={styles.cartTxtStyle}>{addtoCart?.length}</Text>
+            </View>
+            <Icon name="cart-plus" size={28} color="#000" />
+          </TouchableOpacity>
+        )}
 
         <Text style={styles.text1}>Delicious food for you</Text>
-        <Text onPress={() => bottomSheetRef?.current?.open()} style={{}}>
-          Add Delicious food
-        </Text>
+        {uid === ADMINUID && (
+          <TouchableOpacity
+            onPress={() => bottomSheetRef?.current?.open()}
+            style={styles.flexDir}>
+            <Icon name="plus" size={16} color="#900" />
+            <Text style={styles.fontStylprice}>Add Delicious food</Text>
+          </TouchableOpacity>
+        )}
         <InputField
           inputContainerStyle={styles.searchStyle}
           placeholder={'Search'}

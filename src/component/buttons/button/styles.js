@@ -32,7 +32,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   linearGradient: {
-    flex: 1,
     paddingHorizontal: 2,
     paddingVertical: 2,
     borderRadius: 10,

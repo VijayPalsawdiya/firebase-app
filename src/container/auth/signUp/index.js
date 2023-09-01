@@ -22,9 +22,9 @@ const SignUpScreen = () => {
   const [initializing, setInitializing] = useState(true);
 
   const initialValues = {
-    email: 'vj@gmail.com',
-    password: '12345678',
-    confirmPassword: '12345678',
+    email: '',
+    password: '',
+    confirmPassword: '',
   };
 
   const {handleChange, handleSubmit, values, errors, touched} = useFormik({
